@@ -1,0 +1,511 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SignUp page</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(145deg, #fff7f0 0%, #fdeff2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        form {
+            background: rgba(255, 250, 245, 0.95);
+            padding: 2.5rem 2rem;
+            border-radius: 1.5rem;
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.08);
+            border: 1px solid rgba(255, 235, 215, 0.8);
+            width: 100%;
+            max-width: 450px;
+        }
+
+        label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #5c4b43;
+            margin-bottom: 0.4rem;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="password"],
+        textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            font-size: 0.95rem;
+            font-family: inherit;
+            border: 1.5px solid #f3decb;
+            border-radius: 1.2rem;
+            background: #ffffff;
+            transition: all 0.2s ease;
+            outline: none;
+            color: #2c2a2b;
+            margin-bottom: 1rem;
+            resize: vertical;
+        }
+
+        textarea {
+            min-height: 80px;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="tel"]:focus,
+        input[type="password"]:focus,
+        textarea:focus {
+            border-color: #e07a5f;
+            box-shadow: 0 0 0 3px rgba(224, 122, 95, 0.08);
+        }
+
+        input[type="text"]::placeholder,
+        input[type="email"]::placeholder,
+        input[type="tel"]::placeholder,
+        input[type="password"]::placeholder,
+        textarea::placeholder {
+            color: #cfbcaf;
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 0.8rem;
+            background: #f7d6c5;
+            color: #b05c3c;
+            border: 1px solid #ffe0cf;
+            border-radius: 2rem;
+            font-size: 1rem;
+            font-weight: 600;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            margin-top: 0.5rem;
+        }
+
+        input[type="submit"]:hover {
+            background: #f9cfba;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 18px -8px rgba(224, 122, 95, 0.25);
+            border-color: #f7bc98;
+        }
+
+        br {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <form method="post" action={% url 'signup' %}>
+        {% csrf_token %}
+        <label for="name">Name: </label>
+        <input type="text" id="name" name="name" placeholder="Full name">
+        <br>
+
+        <label for="email">Email: </label>
+        <input type="email" id="email" name="email" placeholder="your@email.com">
+        <br>
+
+        <label for="phone">Phone: </label>
+        <input type="tel" id="phone" name="phone" placeholder="Mobile number">
+        <br>
+
+        <label for="password">Password: </label>
+        <input type="password" name="password" id="password" placeholder="Create a password">
+        <br>
+
+        <label for="address">Address: </label>
+        <textarea id="address" name="address" placeholder="Street, city, postal code"></textarea>
+        <br>
+
+        <input type="submit" value="Sign Up">
+    </form>
+</body>
+</html> {% endcomment %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Orbit - Sign Up</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-green: #2e7d32;
+            --light-green: #4caf50;
+            --white: #ffffff;
+            --beige: #f5f5dc;
+            --warm-beige: #e8e0c8;
+            --dark-beige: #d4c5a0;
+            --deep-beige: #c2b28b;
+            --shadow-sm: 0 10px 30px rgba(46, 125, 50, 0.1);
+            --shadow-md: 0 20px 40px rgba(46, 125, 50, 0.15);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--beige) 0%, var(--warm-beige) 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            animation: fadeIn 0.5s ease-out;
+            position: relative;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Animated background */
+        body::before {
+            content: '🍽️';
+            position: absolute;
+            font-size: 100px;
+            opacity: 0.03;
+            top: 10%;
+            left: -30px;
+            animation: float 20s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        body::after {
+            content: '✨';
+            position: absolute;
+            font-size: 120px;
+            opacity: 0.03;
+            bottom: 10%;
+            right: -30px;
+            animation: float 25s ease-in-out infinite reverse;
+            pointer-events: none;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(20px, 15px) rotate(5deg); }
+        }
+
+        form {
+            background: var(--white);
+            padding: 2.5rem 2rem;
+            border-radius: 1.5rem;
+            box-shadow: var(--shadow-sm);
+            width: 100%;
+            max-width: 450px;
+            position: relative;
+            z-index: 1;
+            animation: slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        form:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Form Header */
+        .form-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .logo-icon {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .form-title {
+            font-size: 1.8rem;
+            color: var(--primary-green);
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+            background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .form-subtitle {
+            font-size: 0.85rem;
+            color: var(--deep-beige);
+            letter-spacing: 0.5px;
+        }
+
+        .divider {
+            width: 50px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--light-green), var(--primary-green));
+            margin: 0.8rem auto 0;
+            border-radius: 2px;
+            animation: expandWidth 0.8s ease-out;
+        }
+
+        @keyframes expandWidth {
+            from { width: 0; opacity: 0; }
+            to { width: 50px; opacity: 1; }
+        }
+
+        label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--primary-green);
+            margin-bottom: 0.5rem;
+            margin-top: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="password"],
+        textarea {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            font-size: 0.95rem;
+            font-family: inherit;
+            border: 2px solid var(--warm-beige);
+            border-radius: 1rem;
+            background: var(--white);
+            transition: all 0.3s ease;
+            outline: none;
+            color: #4a3b32;
+            margin-bottom: 1rem;
+            resize: vertical;
+        }
+
+        textarea {
+            min-height: 80px;
+        }
+
+        input:hover,
+        textarea:hover {
+            border-color: var(--dark-beige);
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: var(--light-green);
+            box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.1);
+            transform: translateY(-1px);
+        }
+
+        input::placeholder,
+        textarea::placeholder {
+            color: var(--dark-beige);
+            font-size: 0.85rem;
+        }
+
+        /* Password strength indicator */
+        .password-strength {
+            margin-top: -0.5rem;
+            margin-bottom: 0.5rem;
+            font-size: 0.7rem;
+            color: var(--deep-beige);
+        }
+
+        input[type="submit"] {
+            width: 100%;
+            padding: 0.9rem;
+            background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+            color: var(--white);
+            border: none;
+            border-radius: 2rem;
+            font-size: 1rem;
+            font-weight: 700;
+            font-family: inherit;
+            cursor: pointer;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            margin-top: 1rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        input[type="submit"]::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        input[type="submit"]:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        input[type="submit"]:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(46, 125, 50, 0.3);
+        }
+
+        input[type="submit"]:active {
+            transform: translateY(0);
+        }
+
+        /* Form footer */
+        .form-footer {
+            text-align: center;
+            margin-top: 1.5rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--warm-beige);
+        }
+
+        .signin-link {
+            color: var(--deep-beige);
+            font-size: 0.85rem;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .signin-link:hover {
+            color: var(--primary-green);
+            transform: translateX(3px);
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            body {
+                padding: 1rem;
+            }
+            
+            form {
+                padding: 1.8rem 1.5rem;
+                max-width: 100%;
+            }
+            
+            .form-title {
+                font-size: 1.5rem;
+            }
+            
+            .logo-icon {
+                font-size: 2.5rem;
+            }
+            
+            input, textarea {
+                padding: 0.7rem;
+            }
+        }
+
+        /* Focus visible for accessibility */
+        input:focus-visible,
+        textarea:focus-visible,
+        button:focus-visible {
+            outline: 2px solid var(--primary-green);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <form method="post" action={% url 'signup' %}>
+        {% csrf_token %}
+        
+        <div class="form-header">
+            <div class="logo-icon">🍽️✨</div>
+            <div class="form-title">Create Account</div>
+            <div class="form-subtitle">Join the Food Orbit community</div>
+            <div class="divider"></div>
+        </div>
+
+        <label for="name">Full Name</label>
+        <input type="text" id="name" name="name" placeholder="Enter your full name" autocomplete="name">
+        <br>
+
+        <label for="email">Email Address</label>
+        <input type="email" id="email" name="email" placeholder="your@email.com" autocomplete="email">
+        <br>
+
+        <label for="phone">Phone Number</label>
+        <input type="tel" id="phone" name="phone" placeholder="Mobile number" autocomplete="tel">
+        <br>
+
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" placeholder="Create a strong password" autocomplete="new-password">
+        <div class="password-strength" id="passwordStrength"></div>
+        <br>
+
+        <label for="address">Delivery Address</label>
+        <textarea id="address" name="address" placeholder="Street address, city, postal code"></textarea>
+        <br>
+
+        <input type="submit" value="Sign Up →">
+
+        <div class="form-footer">
+            <a href="/SignIn" class="signin-link">Already have an account? Sign in →</a>
+        </div>
+    </form>
+
+    <script>
+        // Password strength indicator
+        const passwordInput = document.getElementById('password');
+        const strengthDiv = document.getElementById('passwordStrength');
+
+        if (passwordInput) {
+            passwordInput.addEventListener('input', function() {
+                const password = this.value;
+                let strength = '';
+                let strengthColor = '';
+                
+                if (password.length === 0) {
+                    strength = '';
+                } else if (password.length < 4) {
+                    strength = '⚠️ Weak password';
+                    strengthColor = '#f44336';
+                } else if (password.length < 8) {
+                    strength = '🟡 Medium password';
+                    strengthColor = '#ff9800';
+                } else {
+                    strength = '✅ Strong password';
+                    strengthColor = '#4caf50';
+                }
+                
+                strengthDiv.textContent = strength;
+                strengthDiv.style.color = strengthColor;
+            });
+        }
+    </script>
+</body>
+</html>

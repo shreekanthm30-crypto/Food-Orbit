@@ -1,0 +1,518 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <!-- <link rel="stylesheet" href="{% static 'delivery/css/styles.css' %}"> -->
+    <title>{{ restaurant.name }} - Menu</title>
+</head>
+<body>
+
+    <h2>Add Menu Item</h2>
+    <form method="POST" action="{% url 'update_menu' restaurant.id %}">
+        {% csrf_token %}
+        <label for="name">Item Name:</label>
+        <input type="text" id="name" name="name" required><br><br>
+
+        <label for="description">Description:</label>
+        <textarea id="description" name="description" required></textarea><br><br>
+
+        <label for="price">Price:</label>
+        <input type="number" id="price" name="price" step="0.01" required><br><br>
+
+        <label for="is_veg">Vegetarian:</label>
+        <input type="checkbox" id="is_veg" name="is_veg"><br><br>
+
+        <label for="picture">Image URL:</label>
+        <input type="url" id="picture" name="picture"><br><br>
+
+        <button type="submit">Add Item</button>
+    </form>
+
+
+    <!-- Display menu Item -->
+     <h1>Menu for {{ restaurant.name }}</h1>
+    <h3>Cuisine: {{ restaurant.cuisine }}</h3>
+    <img src="{{ restaurant.picture }}" alt="{{ restaurant.name }}" width="200">
+
+    <h2>Menu Items</h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Price</th>
+                <th>Veg/Non-Veg</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for item in itemList %}
+            <tr>
+                <td>
+                    <img src="{{ item.picture }}" alt="{{ item.name }}" width="100">
+                </td>
+                <td>{{ item.name }}</td>
+                <td>{{ item.description }}</td>
+                <td>{{ item.price }}</td>
+                <td>
+                    {% if item.is_veg %}
+                        Veg
+                    {% else %}
+                        Non-Veg
+                    {% endif %}
+                </td> 
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="5">No menu items yet.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html> {% endcomment %}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% load static %}
+    <title>{{ restaurant.name }} - Menu | Food Orbit</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-green: #2e7d32;
+            --light-green: #4caf50;
+            --white: #ffffff;
+            --beige: #f5f5dc;
+            --warm-beige: #e8e0c8;
+            --dark-beige: #d4c5a0;
+            --deep-beige: #c2b28b;
+            --veg-green: #4caf50;
+            --nonveg-red: #f44336;
+            --shadow-sm: 0 5px 15px rgba(46, 125, 50, 0.1);
+            --shadow-md: 0 10px 30px rgba(46, 125, 50, 0.15);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--beige) 0%, var(--warm-beige) 100%);
+            min-height: 100vh;
+            padding: 2rem;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Container */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            animation: slideDown 0.6s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 1rem;
+            color: var(--primary-green);
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .back-link:hover {
+            transform: translateX(-5px);
+            color: var(--light-green);
+        }
+
+        h1 {
+            color: var(--primary-green);
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .divider {
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--light-green), var(--primary-green));
+            margin: 0.5rem auto 0;
+            border-radius: 3px;
+        }
+
+        /* Add Item Form */
+        .form-section {
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-md);
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .form-title {
+            color: var(--primary-green);
+            margin-bottom: 1rem;
+            font-size: 1.3rem;
+        }
+
+        form {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .full-width {
+            grid-column: 1 / -1;
+        }
+
+        label {
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--primary-green);
+            margin-bottom: 0.3rem;
+        }
+
+        input, textarea, select {
+            padding: 0.7rem;
+            border: 2px solid var(--warm-beige);
+            border-radius: 0.8rem;
+            font-family: inherit;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        input:focus, textarea:focus, select:focus {
+            border-color: var(--light-green);
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        .checkbox-group {
+            flex-direction: row;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .checkbox-group label {
+            margin-bottom: 0;
+        }
+
+        .checkbox-group input {
+            width: auto;
+        }
+
+        button {
+            padding: 0.7rem 1.5rem;
+            background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+            color: var(--white);
+            border: none;
+            border-radius: 2rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46, 125, 50, 0.3);
+        }
+
+        /* Restaurant Info */
+        .restaurant-info {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+            background: var(--white);
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .restaurant-img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 1rem;
+        }
+
+        .cuisine-badge {
+            display: inline-block;
+            background: var(--beige);
+            color: var(--primary-green);
+            padding: 0.3rem 1rem;
+            border-radius: 2rem;
+            margin-top: 0.5rem;
+        }
+
+        /* Table */
+        .table-container {
+            background: var(--white);
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            margin-top: 1rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+        }
+
+        th {
+            color: var(--white);
+            padding: 0.8rem;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 0.8rem;
+            text-align: center;
+            border-bottom: 1px solid var(--warm-beige);
+        }
+
+        tbody tr:hover {
+            background: var(--beige);
+        }
+
+        .menu-img {
+            width: 60px;
+            height: 60px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+        }
+
+        .veg-badge {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .veg {
+            background: #e8f5e9;
+            color: var(--veg-green);
+        }
+
+        .nonveg {
+            background: #ffebee;
+            color: var(--nonveg-red);
+        }
+
+        .price {
+            font-weight: 700;
+            color: var(--primary-green);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 2rem;
+            color: var(--deep-beige);
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            form {
+                grid-template-columns: 1fr;
+            }
+            
+            .restaurant-info {
+                flex-direction: column;
+                text-align: center;
+            }
+            
+            .table-container {
+                overflow-x: auto;
+            }
+            
+            table {
+                min-width: 500px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="/admin" class="back-link">← Back to Admin Panel</a>
+            <h1>{{ restaurant.name }}</h1>
+            <div class="divider"></div>
+        </div>
+
+        <!-- Add Menu Item Form -->
+        <div class="form-section">
+            <h2 class="form-title">➕ Add Menu Item</h2>
+            <form method="POST" action="{% url 'update_menu' restaurant.id %}">
+                {% csrf_token %}
+                
+                <div class="form-group">
+                    <label>Item Name</label>
+                    <input type="text" id="name" name="name" placeholder="e.g., Margherita Pizza" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Price (₹)</label>
+                    <input type="number" id="price" name="price" step="0.01" placeholder="0.00" required>
+                </div>
+
+                <div class="form-group">
+                    <label>Image URL</label>
+                    <input type="url" id="picture" name="picture" placeholder="https://example.com/image.jpg">
+                </div>
+
+                <div class="form-group checkbox-group">
+                    <input type="checkbox" id="is_veg" name="is_veg">
+                    <label for="is_veg">🌱 Vegetarian Item</label>
+                </div>
+
+                <div class="form-group full-width">
+                    <label>Description</label>
+                    <textarea id="description" name="description" placeholder="Describe the menu item..." required></textarea>
+                </div>
+
+                <div class="form-group full-width">
+                    <button type="submit">➕ Add Item</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Restaurant Info -->
+        <div class="restaurant-info">
+            {% if restaurant.picture %}
+                <img src="{{ restaurant.picture }}" alt="{{ restaurant.name }}" class="restaurant-img">
+            {% else %}
+                <div style="width:120px; height:120px; background:var(--warm-beige); border-radius:1rem; display:flex; align-items:center; justify-content:center; font-size:3rem;">🏪</div>
+            {% endif %}
+            <div>
+                <h3>Cuisine: <span class="cuisine-badge">{{ restaurant.cuisine }}</span></h3>
+            </div>
+        </div>
+
+        <!-- Menu Items Table -->
+        <h2 style="margin: 1.5rem 0 0.5rem;">📋 Menu Items</h2>
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Image</th>
+                        <th>Name</th>
+                        <th>Description</th>
+                        <th>Price</th>
+                        <th>Type</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in itemList %}
+                    <tr>
+                        <td>
+                            {% if item.picture %}
+                                <img src="{{ item.picture }}" alt="{{ item.name }}" class="menu-img">
+                            {% else %}
+                                <div style="width:60px; height:60px; background:var(--warm-beige); border-radius:0.5rem; display:flex; align-items:center; justify-content:center; margin:0 auto;">🍽️</div>
+                            {% endif %}
+                        </td>
+                        <td><strong>{{ item.name }}</strong></td>
+                        <td>{{ item.description|truncatechars:50 }}</td>
+                        <td class="price">₹{{ item.price }}</td>
+                        <td>
+                            {% if item.is_veg %}
+                                <span class="veg-badge veg">🌱 Veg</span>
+                            {% else %}
+                                <span class="veg-badge nonveg">🍗 Non-Veg</span>
+                            {% endif %}
+                         </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="5" class="empty-state">
+                            🍽️ No menu items yet.<br>
+                            Add your first menu item above!
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,433 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>update Restaurant</title>
+</head>
+<body>
+    <!-- Hello
+    {{restaurant.id}}
+    {{restaurant.name}} -->
+    <form method="POST" action="{% url 'update_restaurant' restaurant.id %}">
+
+        {% csrf_token %}
+        <label for="name">Restaurant Name:</label>
+        <input type="text" id="name" name="name" value="{{restaurant.name}}"><br><br>
+    
+        <label for="picture">Picture URL:</label>
+        <input type="url" id="picture" name="picture" value="{{restaurant.picture}}"><br><br>
+    
+        <label for="cuisine">Cuisine:</label>
+        <input type="text" id="cuisine" name="cuisine" value="{{restaurant.cuisine}}" required><br><br>
+    
+        <label for="rating">Rating:</label>
+        <input type="number" id="rating" name="rating" step="0.1" min="0" max="5" value="{{restaurant.rating}}" required><br><br>
+    
+        <button type="submit">Update Restaurant</button>
+    </form>
+</body>
+</html> {% endcomment %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Orbit - Update Restaurant</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-green: #2e7d32;
+            --light-green: #4caf50;
+            --white: #ffffff;
+            --beige: #f5f5dc;
+            --warm-beige: #e8e0c8;
+            --dark-beige: #d4c5a0;
+            --deep-beige: #c2b28b;
+            --shadow-sm: 0 10px 30px rgba(46, 125, 50, 0.1);
+            --shadow-md: 0 20px 40px rgba(46, 125, 50, 0.15);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--beige) 0%, var(--warm-beige) 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            animation: fadeIn 0.5s ease-out;
+            position: relative;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Animated background */
+        body::before {
+            content: '✏️';
+            position: absolute;
+            font-size: 100px;
+            opacity: 0.03;
+            top: 10%;
+            left: -30px;
+            animation: float 20s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        body::after {
+            content: '🏪';
+            position: absolute;
+            font-size: 120px;
+            opacity: 0.03;
+            bottom: 10%;
+            right: -30px;
+            animation: float 25s ease-in-out infinite reverse;
+            pointer-events: none;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(20px, 15px) rotate(5deg); }
+        }
+
+        .container {
+            max-width: 550px;
+            width: 100%;
+            background: var(--white);
+            border-radius: 2rem;
+            box-shadow: var(--shadow-md);
+            overflow: hidden;
+            animation: slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(40px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Header */
+        .form-header {
+            background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+            padding: 1.5rem;
+            text-align: center;
+        }
+
+        .logo-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        .form-header h2 {
+            color: var(--white);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.3rem;
+        }
+
+        .form-header p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 0.85rem;
+        }
+
+        /* Form Body */
+        .form-body {
+            padding: 2rem;
+        }
+
+        .restaurant-id {
+            background: var(--beige);
+            padding: 0.8rem;
+            border-radius: 1rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        .restaurant-id span {
+            color: var(--primary-green);
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.2rem;
+            animation: fadeInUp 0.5s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .form-group:nth-child(1) { animation-delay: 0.1s; }
+        .form-group:nth-child(2) { animation-delay: 0.15s; }
+        .form-group:nth-child(3) { animation-delay: 0.2s; }
+        .form-group:nth-child(4) { animation-delay: 0.25s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--primary-green);
+            margin-bottom: 0.5rem;
+            transition: color 0.3s ease;
+        }
+
+        .input-wrapper {
+            position: relative;
+        }
+
+        input {
+            width: 100%;
+            padding: 0.85rem 1rem;
+            border: 2px solid var(--warm-beige);
+            border-radius: 1rem;
+            background: var(--white);
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            outline: none;
+            color: #4a3b32;
+        }
+
+        input:hover {
+            border-color: var(--dark-beige);
+        }
+
+        input:focus {
+            border-color: var(--light-green);
+            box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.1);
+            transform: translateY(-1px);
+        }
+
+        /* Rating input styling */
+        input[type="number"] {
+            -moz-appearance: textfield;
+        }
+
+        input[type="number"]::-webkit-inner-spin-button,
+        input[type="number"]::-webkit-outer-spin-button {
+            opacity: 0.5;
+        }
+
+        /* Current value indicator */
+        .current-value {
+            font-size: 0.7rem;
+            color: var(--deep-beige);
+            margin-top: 0.3rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .current-value::before {
+            content: '📌';
+            font-size: 0.7rem;
+        }
+
+        /* Button */
+        .button-group {
+            margin-top: 1.5rem;
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            animation: fadeInUp 0.5s ease-out 0.3s both;
+        }
+
+        button {
+            flex: 1;
+            padding: 0.9rem;
+            background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+            color: var(--white);
+            border: none;
+            border-radius: 2rem;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(46, 125, 50, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .btn-cancel {
+            background: var(--beige);
+            color: var(--deep-beige);
+            border: 2px solid var(--warm-beige);
+        }
+
+        .btn-cancel:hover {
+            background: var(--warm-beige);
+            color: var(--primary-green);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Divider */
+        .divider {
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--warm-beige), transparent);
+            margin: 1rem 0;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .form-body {
+                padding: 1.5rem;
+            }
+            
+            .form-header h2 {
+                font-size: 1.3rem;
+            }
+            
+            .logo-icon {
+                font-size: 2rem;
+            }
+            
+            input {
+                padding: 0.7rem;
+            }
+            
+            button {
+                padding: 0.7rem;
+            }
+        }
+
+        /* Focus visible */
+        input:focus-visible, button:focus-visible {
+            outline: 2px solid var(--primary-green);
+            outline-offset: 2px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-header">
+            <div class="logo-icon">✏️🏪</div>
+            <h2>Update Restaurant</h2>
+            <p>Modify restaurant details</p>
+        </div>
+
+        <div class="form-body">
+            <div class="restaurant-id">
+                📋 Editing Restaurant ID: <span>{{ restaurant.id }}</span>
+            </div>
+
+            <form method="POST" action="{% url 'update_restaurant' restaurant.id %}">
+                {% csrf_token %}
+
+                <div class="form-group">
+                    <label>🏪 Restaurant Name</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="name" name="name" value="{{ restaurant.name }}" required>
+                    </div>
+                    <div class="current-value">Current: {{ restaurant.name }}</div>
+                </div>
+
+                <div class="form-group">
+                    <label>🖼️ Picture URL</label>
+                    <div class="input-wrapper">
+                        <input type="url" id="picture" name="picture" value="{{ restaurant.picture }}">
+                    </div>
+                    {% if restaurant.picture %}
+                        <div class="current-value">Current: {{ restaurant.picture|truncatechars:40 }}</div>
+                    {% else %}
+                        <div class="current-value">No image set</div>
+                    {% endif %}
+                </div>
+
+                <div class="form-group">
+                    <label>🍜 Cuisine</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="cuisine" name="cuisine" value="{{ restaurant.cuisine }}" required>
+                    </div>
+                    <div class="current-value">Current: {{ restaurant.cuisine }}</div>
+                </div>
+
+                <div class="form-group">
+                    <label>⭐ Rating (0-5)</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="rating" name="rating" step="0.1" min="0" max="5" value="{{ restaurant.rating }}" required>
+                    </div>
+                    <div class="current-value">Current: {{ restaurant.rating }}/5</div>
+                </div>
+
+                <div class="button-group">
+                    <button type="submit">💾 Update Restaurant</button>
+                    <a href="/admin" style="flex:1">
+                        <button type="button" class="btn-cancel">❌ Cancel</button>
+                    </a>
+                </div>
+            </form>
+
+            <div class="divider"></div>
+            <div style="text-align: center; font-size: 0.7rem; color: var(--deep-beige);">
+                Make changes above and click Update to save
+            </div>
+        </div>
+    </div>
+</body>
+</html>

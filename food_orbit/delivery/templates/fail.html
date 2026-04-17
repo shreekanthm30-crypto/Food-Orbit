@@ -1,0 +1,377 @@
+{% comment %} <!DOCTYPE html>
+<html>
+<head>
+    <title>Failure</title>
+</head>
+<body style="text-align:center; font-family: Arial; margin-top: 100px;">
+    <h1 style="color: red;">Login Failed ❌</h1>
+
+    <p>Invalid username or password</p>
+
+    <a href="/SignIn/">Try Again</a>
+</body>
+</html> {% endcomment %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Food Orbit - Login Failed</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-green: #2e7d32;
+            --light-green: #4caf50;
+            --white: #ffffff;
+            --beige: #f5f5dc;
+            --warm-beige: #e8e0c8;
+            --dark-beige: #d4c5a0;
+            --deep-beige: #c2b28b;
+            --error-red: #d32f2f;
+            --error-light: #ffebee;
+            --shadow-sm: 0 10px 30px rgba(46, 125, 50, 0.1);
+            --shadow-md: 0 20px 40px rgba(46, 125, 50, 0.15);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--beige) 0%, var(--warm-beige) 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 2rem;
+            animation: fadeIn 0.5s ease-out;
+            position: relative;
+            overflow: hidden;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Animated background elements */
+        body::before {
+            content: '❌';
+            position: absolute;
+            font-size: 150px;
+            opacity: 0.04;
+            top: -50px;
+            right: -50px;
+            animation: float 20s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        body::after {
+            content: '🔒';
+            position: absolute;
+            font-size: 120px;
+            opacity: 0.04;
+            bottom: -30px;
+            left: -30px;
+            animation: float 25s ease-in-out infinite reverse;
+            pointer-events: none;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(30px, 20px) rotate(10deg); }
+        }
+
+        .container {
+            background: var(--white);
+            padding: 3rem 2rem;
+            border-radius: 2rem;
+            box-shadow: var(--shadow-md);
+            max-width: 500px;
+            width: 100%;
+            position: relative;
+            z-index: 1;
+            animation: shakeAndSlide 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        @keyframes shakeAndSlide {
+            0% {
+                opacity: 0;
+                transform: translateY(40px) rotate(0deg);
+            }
+            20% {
+                transform: translateX(-5px) rotate(-1deg);
+            }
+            40% {
+                transform: translateX(5px) rotate(1deg);
+            }
+            60% {
+                transform: translateX(-3px) rotate(-0.5deg);
+            }
+            80% {
+                transform: translateX(3px) rotate(0.5deg);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0) rotate(0deg);
+            }
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        /* Failure icon */
+        .failure-icon {
+            width: 100px;
+            height: 100px;
+            background: linear-gradient(135deg, var(--error-red), #ff6b6b);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1.5rem;
+            animation: scaleIn 0.5s ease-out 0.3s both;
+        }
+
+        @keyframes scaleIn {
+            from {
+                transform: scale(0);
+                opacity: 0;
+            }
+            to {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .crossmark {
+            font-size: 3rem;
+            animation: shake 0.5s ease-out 0.5s both;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: rotate(0deg); }
+            25% { transform: rotate(-10deg); }
+            75% { transform: rotate(10deg); }
+        }
+
+        h1 {
+            color: var(--error-red);
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            animation: fadeInUp 0.5s ease-out 0.2s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .error-message {
+            background: var(--error-light);
+            padding: 1rem;
+            border-radius: 1rem;
+            margin: 1.5rem 0;
+            border-left: 4px solid var(--error-red);
+            animation: fadeInUp 0.5s ease-out 0.3s both;
+        }
+
+        .error-message p {
+            color: var(--error-red);
+            font-size: 1rem;
+            font-weight: 500;
+        }
+
+        .error-icon {
+            font-size: 1.5rem;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        .divider {
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--error-red), #ff8a80);
+            margin: 1rem auto;
+            border-radius: 3px;
+            animation: expandWidth 0.8s ease-out 0.4s both;
+        }
+
+        @keyframes expandWidth {
+            from { width: 0; opacity: 0; }
+            to { width: 60px; opacity: 1; }
+        }
+
+        .btn-try-again {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.9rem 2rem;
+            background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+            color: var(--white);
+            text-decoration: none;
+            border-radius: 2rem;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            margin-top: 1rem;
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 0.5s ease-out 0.4s both;
+        }
+
+        .btn-try-again::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn-try-again:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-try-again:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(46, 125, 50, 0.3);
+        }
+
+        .btn-try-again:active {
+            transform: translateY(0);
+        }
+
+        /* Help section */
+        .help-section {
+            margin-top: 2rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--warm-beige);
+            animation: fadeInUp 0.5s ease-out 0.5s both;
+        }
+
+        .help-text {
+            color: var(--deep-beige);
+            font-size: 0.85rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .help-link {
+            color: var(--primary-green);
+            text-decoration: none;
+            font-size: 0.85rem;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .help-link:hover {
+            color: var(--light-green);
+            transform: translateX(3px);
+        }
+
+        /* Quick tips */
+        .tips {
+            margin-top: 1rem;
+            padding: 0.8rem;
+            background: var(--beige);
+            border-radius: 0.8rem;
+            font-size: 0.8rem;
+            color: var(--deep-beige);
+        }
+
+        .tips ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 0.5rem;
+        }
+
+        .tips li {
+            margin: 0.3rem 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 480px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .container {
+                padding: 2rem 1.5rem;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .failure-icon {
+                width: 80px;
+                height: 80px;
+            }
+            
+            .crossmark {
+                font-size: 2.5rem;
+            }
+            
+            .error-message p {
+                font-size: 0.9rem;
+            }
+            
+            .tips {
+                font-size: 0.7rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="failure-icon">
+            <div class="crossmark">✗</div>
+        </div>
+        
+        <h1>Login Failed ❌</h1>
+        <div class="divider"></div>
+        
+        <div class="error-message">
+            <span class="error-icon">🔐</span>
+            <p>Invalid username or password</p>
+        </div>
+        
+        <a href="/SignIn/" class="btn-try-again">🔄 Try Again</a>
+        
+        <div class="help-section">
+            <div class="help-text">Having trouble signing in?</div>
+            <a href="/forgot-password" class="help-link">Forgot Password? →</a>
+            
+            <div class="tips">
+                💡 Quick Tips:
+                <ul>
+                    <li>✓ Check if Caps Lock is on</li>
+                    <li>✓ Ensure email/username is correct</li>
+                    <li>✓ Password is case-sensitive</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

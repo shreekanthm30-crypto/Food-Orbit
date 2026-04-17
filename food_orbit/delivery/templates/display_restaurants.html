@@ -1,0 +1,479 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>restaurants List</title>
+</head>
+<body>
+    <!-- {{restaurants}} -->
+     <h1>My Favorite Restaurants</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Picture</th>
+                <th>Name</th>
+                <th>Cuisine</th>
+                <th>Rating</th>
+                
+            </tr>
+        </thead>
+        <tbody>
+            {% for restaurant in restaurants %}
+            <tr>
+                <td>
+                    <img src="{{ restaurant.picture }}" alt="Picture of {{ restaurant.name }}" width="100">
+                </td>
+                <td>{{ restaurant.name }}</td>
+                <td>{{ restaurant.cuisine }}</td>
+                <td>{{ restaurant.rating }}/5</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</body>
+</html> {% endcomment %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Orbit - Restaurants List</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-green: #2e7d32;
+            --light-green: #4caf50;
+            --white: #ffffff;
+            --beige: #f5f5dc;
+            --warm-beige: #e8e0c8;
+            --dark-beige: #d4c5a0;
+            --deep-beige: #c2b28b;
+            --shadow-sm: 0 5px 15px rgba(46, 125, 50, 0.1);
+            --shadow-md: 0 10px 30px rgba(46, 125, 50, 0.15);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--beige) 0%, var(--warm-beige) 100%);
+            min-height: 100vh;
+            padding: 2rem;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* Header Section */
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            animation: slideDown 0.6s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo-icon {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            display: inline-block;
+            animation: bounce 2s ease-in-out infinite;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        h1 {
+            color: var(--primary-green);
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .subtitle {
+            color: var(--deep-beige);
+            font-size: 0.9rem;
+            margin-top: 0.5rem;
+        }
+
+        .divider {
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--light-green), var(--primary-green));
+            margin: 0.8rem auto 0;
+            border-radius: 3px;
+            animation: expandWidth 0.8s ease-out;
+        }
+
+        @keyframes expandWidth {
+            from { width: 0; opacity: 0; }
+            to { width: 60px; opacity: 1; }
+        }
+
+        /* Stats Section */
+        .stats-container {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .stat-card {
+            background: var(--white);
+            padding: 0.8rem 1.5rem;
+            border-radius: 1rem;
+            box-shadow: var(--shadow-sm);
+            text-align: center;
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.5s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .stat-card:nth-child(1) { animation-delay: 0.1s; }
+        .stat-card:nth-child(2) { animation-delay: 0.2s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .stat-card:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary-green);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 0.75rem;
+            color: var(--deep-beige);
+            margin-top: 0.2rem;
+        }
+
+        /* Table Container */
+        .table-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: var(--white);
+            border-radius: 1.5rem;
+            overflow: hidden;
+            box-shadow: var(--shadow-md);
+            animation: slideUp 0.6s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+        }
+
+        th {
+            color: var(--white);
+            padding: 1rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        td {
+            padding: 1rem;
+            text-align: center;
+            color: #4a3b32;
+            border-bottom: 1px solid var(--warm-beige);
+            vertical-align: middle;
+        }
+
+        tbody tr {
+            transition: all 0.3s ease;
+        }
+
+        tbody tr:hover {
+            background: var(--beige);
+            transform: scale(1.01);
+        }
+
+        /* Image Styling */
+        .restaurant-img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 0.8rem;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+        }
+
+        .restaurant-img:hover {
+            transform: scale(1.1);
+            box-shadow: var(--shadow-md);
+        }
+
+        .no-image {
+            width: 80px;
+            height: 80px;
+            background: var(--warm-beige);
+            border-radius: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            margin: 0 auto;
+        }
+
+        /* Restaurant Name */
+        .restaurant-name {
+            font-weight: 600;
+            color: var(--primary-green);
+        }
+
+        /* Rating Stars */
+        .rating {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            background: var(--beige);
+            padding: 0.3rem 0.8rem;
+            border-radius: 2rem;
+        }
+
+        .rating-stars {
+            color: #ffc107;
+            letter-spacing: 2px;
+        }
+
+        .rating-value {
+            font-weight: 600;
+            color: var(--primary-green);
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--deep-beige);
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Back Button */
+        .back-button {
+            text-align: center;
+            margin-top: 2rem;
+        }
+
+        .back-home {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.7rem 1.5rem;
+            background: var(--white);
+            color: var(--primary-green);
+            text-decoration: none;
+            border-radius: 2rem;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .back-home:hover {
+            transform: translateX(-5px);
+            box-shadow: var(--shadow-md);
+            background: var(--primary-green);
+            color: var(--white);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .logo-icon {
+                font-size: 2.5rem;
+            }
+            
+            .table-container {
+                overflow-x: auto;
+            }
+            
+            table {
+                min-width: 500px;
+            }
+            
+            th, td {
+                padding: 0.7rem;
+                font-size: 0.85rem;
+            }
+            
+            .restaurant-img {
+                width: 60px;
+                height: 60px;
+            }
+            
+            .stats-container {
+                gap: 1rem;
+            }
+            
+            .stat-card {
+                padding: 0.5rem 1rem;
+            }
+            
+            .stat-number {
+                font-size: 1.2rem;
+            }
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--beige);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--light-green);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-green);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <div class="logo-icon">🍽️✨</div>
+        <h1>My Favorite Restaurants</h1>
+        <div class="subtitle">Discover and explore amazing places to eat</div>
+        <div class="divider"></div>
+    </div>
+
+    <!-- Stats Section -->
+    <div class="stats-container">
+        <div class="stat-card">
+            <span class="stat-number">{{ restaurants|length }}</span>
+            <span class="stat-label">Total Restaurants</span>
+        </div>
+        <div class="stat-card">
+            <span class="stat-number">⭐ 4.5</span>
+            <span class="stat-label">Average Rating</span>
+        </div>
+    </div>
+
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Picture</th>
+                    <th>Name</th>
+                    <th>Cuisine</th>
+                    <th>Rating</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for restaurant in restaurants %}
+                <tr>
+                    <td>
+                        {% if restaurant.picture %}
+                            <img src="{{ restaurant.picture }}" alt="{{ restaurant.name }}" class="restaurant-img">
+                        {% else %}
+                            <div class="no-image">🏪</div>
+                        {% endif %}
+                    </td>
+                    <td class="restaurant-name">{{ restaurant.name }}</td>
+                    <td>{{ restaurant.cuisine }}</td>
+                    <td>
+                        <div class="rating">
+                            <span class="rating-stars">
+                                {% with rating=restaurant.rating|floatformat:0 %}
+                                    {% for i in "12345"|make_list %}
+                                        {% if forloop.counter <= rating %}
+                                            ★
+                                        {% else %}
+                                            ☆
+                                        {% endif %}
+                                    {% endfor %}
+                                {% endwith %}
+                            </span>
+                            <span class="rating-value">{{ restaurant.rating }}/5</span>
+                        </div>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4" class="empty-state">
+                        <div class="empty-state-icon">🏪</div>
+                        <p>No restaurants found</p>
+                        <p style="font-size: 0.85rem; margin-top: 0.5rem;">Add restaurants to get started</p>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="back-button">
+        <a href="/" class="back-home">← Back to Home</a>
+    </div>
+
+</body>
+</html>

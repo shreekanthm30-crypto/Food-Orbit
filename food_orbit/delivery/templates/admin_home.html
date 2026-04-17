@@ -1,0 +1,591 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Orbit - Admin</title>
+
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #fff5ee 0%, #fde8f0 100%);
+            color: white;
+        }
+
+        .container {
+            text-align: center;
+            margin-top: 100px;
+        }
+
+        h1 {
+            color: #e07a5f;
+            font-size: 40px;
+            margin-bottom: 30px;
+        }
+
+        .card {
+            background: white;
+            color: black;
+            width: 300px;
+            margin: 20px auto;
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            transition: transform 0.3s;
+        }
+
+        .card:hover {
+            transform: scale(1.05);
+        }
+
+        a {
+            text-decoration: none;
+            color: white;
+        }
+
+        .btn {
+            padding: 0.8rem 2rem;
+            border-radius: 2rem;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+            min-width: 130px;
+            background: #f7d6c5;
+            color: #b05c3c;
+            border: 1px solid #ffe0cf;
+        }
+
+        .btn:hover {
+            background: #f9cfba;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(224, 122, 95, 0.2);
+        }
+
+        .footer {
+            margin-top: 80px;
+            font-size: 14px;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>🚀 Food Orbit Admin Panel</h1>
+
+        <div class="card">
+            <h2>Add Restaurant</h2>
+            <p>Add new restaurants to your platform</p>
+            <a href="open_restaurant_page" class="btn">Add Now</a>
+        </div>
+
+        <div class="card">
+            <h2>View Restaurants</h2>
+            <p>Manage and see all restaurants</p>
+            <a href="open_show_restaurant" class="btn">View List</a>
+        </div>
+
+        <div class="footer">
+            <p>© 2026 Food Orbit</p>
+        </div>
+    </div>
+
+</body>
+</html> {% endcomment %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Orbit - Admin Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-green: #2e7d32;
+            --light-green: #4caf50;
+            --soft-green: #e8f5e9;
+            --white: #ffffff;
+            --beige: #f5f5dc;
+            --warm-beige: #e8e0c8;
+            --dark-beige: #d4c5a0;
+            --deep-beige: #c2b28b;
+            --shadow-sm: 0 10px 30px rgba(46, 125, 50, 0.1);
+            --shadow-md: 0 20px 40px rgba(46, 125, 50, 0.15);
+            --shadow-lg: 0 30px 60px rgba(46, 125, 50, 0.2);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--beige) 0%, var(--warm-beige) 100%);
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated background elements */
+        body::before {
+            content: '👨‍🍳';
+            position: absolute;
+            font-size: 150px;
+            opacity: 0.03;
+            top: 10%;
+            left: -30px;
+            animation: floatSlow 25s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        body::after {
+            content: '🍽️';
+            position: absolute;
+            font-size: 180px;
+            opacity: 0.03;
+            bottom: 5%;
+            right: -40px;
+            animation: floatSlow 30s ease-in-out infinite reverse;
+            pointer-events: none;
+        }
+
+        @keyframes floatSlow {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(40px, 20px) rotate(10deg); }
+        }
+
+        /* Floating circles */
+        .bg-circle {
+            position: fixed;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(76, 175, 80, 0.06) 0%, rgba(76, 175, 80, 0) 70%);
+            pointer-events: none;
+            z-index: 0;
+        }
+
+        .bg-circle-1 {
+            width: 400px;
+            height: 400px;
+            top: -200px;
+            right: -200px;
+            animation: floatCircle 20s ease-in-out infinite;
+        }
+
+        .bg-circle-2 {
+            width: 500px;
+            height: 500px;
+            bottom: -250px;
+            left: -250px;
+            animation: floatCircle 25s ease-in-out infinite reverse;
+        }
+
+        @keyframes floatCircle {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, 20px); }
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+            position: relative;
+            z-index: 1;
+            animation: fadeInPage 0.6s ease-out;
+        }
+
+        @keyframes fadeInPage {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Header Section */
+        .header {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 2rem 0;
+            background: var(--white);
+            border-radius: 2rem;
+            box-shadow: var(--shadow-sm);
+            animation: slideDown 0.6s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .admin-badge {
+            display: inline-block;
+            background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+            color: var(--white);
+            padding: 0.3rem 1rem;
+            border-radius: 2rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            letter-spacing: 1px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.8; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+
+        h1 {
+            color: var(--primary-green);
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            display: inline-block;
+        }
+
+        .header-subtitle {
+            color: var(--deep-beige);
+            font-size: 0.95rem;
+            margin-top: 0.5rem;
+        }
+
+        .divider {
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--light-green), var(--primary-green));
+            margin: 1rem auto 0;
+            border-radius: 3px;
+            animation: expandWidth 0.8s ease-out;
+        }
+
+        @keyframes expandWidth {
+            from { width: 0; opacity: 0; }
+            to { width: 80px; opacity: 1; }
+        }
+
+        /* Cards Grid */
+        .cards-grid {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin: 3rem 0;
+        }
+
+        .card {
+            background: var(--white);
+            width: 320px;
+            padding: 2rem 1.5rem;
+            border-radius: 1.5rem;
+            box-shadow: var(--shadow-md);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            animation: cardFadeIn 0.6s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .card:nth-child(1) { animation-delay: 0.1s; }
+        .card:nth-child(2) { animation-delay: 0.2s; }
+
+        @keyframes cardFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--light-green), var(--primary-green));
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .card:hover {
+            transform: translateY(-10px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .card-icon {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+            transition: transform 0.3s ease;
+        }
+
+        .card:hover .card-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .card h2 {
+            color: var(--primary-green);
+            font-size: 1.5rem;
+            margin-bottom: 0.75rem;
+            font-weight: 600;
+        }
+
+        .card p {
+            color: #6b5b4f;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn {
+            padding: 0.8rem 2rem;
+            border-radius: 2rem;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-block;
+            min-width: 140px;
+            background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+            color: var(--white);
+            border: none;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(46, 125, 50, 0.3);
+        }
+
+        .btn:active {
+            transform: translateY(0);
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            margin-top: 4rem;
+            padding: 2rem;
+            background: var(--white);
+            border-radius: 1rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .footer p {
+            color: var(--deep-beige);
+            font-size: 0.85rem;
+            margin: 0.3rem 0;
+        }
+
+        .footer a {
+            color: var(--light-green);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer a:hover {
+            color: var(--primary-green);
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .card {
+                width: 100%;
+                max-width: 350px;
+            }
+            
+            .stats-section {
+                flex-direction: column;
+                gap: 1.5rem;
+            }
+            
+            .stat-item {
+                min-width: auto;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .header {
+                padding: 1.5rem;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .card h2 {
+                font-size: 1.3rem;
+            }
+            
+            .btn {
+                padding: 0.7rem 1.5rem;
+                min-width: 120px;
+                font-size: 0.9rem;
+            }
+        }
+
+        /* Loading animation */
+        @keyframes pageLoad {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        body {
+            animation: pageLoad 0.5s ease-out;
+        }
+
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--beige);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--light-green);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-green);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="bg-circle bg-circle-1"></div>
+    <div class="bg-circle bg-circle-2"></div>
+
+    <div class="container">
+        <!-- Header Section -->
+        <div class="header">
+            <div class="admin-badge">
+                ⚡ ADMIN ACCESS
+            </div>
+            <h1>🚀 Food Orbit Admin Panel</h1>
+            <div class="header-subtitle">Manage your restaurant ecosystem</div>
+            <div class="divider"></div>
+        </div>
+
+        <!-- Cards Grid -->
+        <div class="cards-grid">
+            <div class="card">
+                <div class="card-icon"></div>
+                <h2>Add Restaurant</h2>
+                <p>Add new restaurants to your platform and expand your food network</p>
+                <a href="open_restaurant_page" class="btn">Add Now →</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon"></div>
+                <h2>View Restaurants</h2>
+                <p>Manage and see all restaurants in your growing ecosystem</p>
+                <a href="open_show_restaurant" class="btn">View List →</a>
+            </div>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>© 2026 Food Orbit | Fresh · Fast · Flavorful</p>
+            <p>🍽️ <a href="/">Back to Home</a> | <a href="/admin/logout">Logout</a></p>
+        </div>
+    </div>
+
+    <script>
+        // Animate stats numbers (optional)
+        const statNumbers = document.querySelectorAll('.stat-number');
+        
+        const animateNumber = (element, target) => {
+            let current = 0;
+            const increment = target / 50;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    element.textContent = target;
+                    clearInterval(timer);
+                } else {
+                    element.textContent = Math.floor(current);
+                }
+            }, 20);
+        };
+
+        // Intersection Observer for stats animation
+        const observerOptions = {
+            threshold: 0.5,
+            rootMargin: "0px"
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const element = entry.target;
+                    const target = parseInt(element.textContent);
+                    if (!isNaN(target)) {
+                        animateNumber(element, target);
+                    }
+                    observer.unobserve(element);
+                }
+            });
+        }, observerOptions);
+
+        statNumbers.forEach(stat => observer.observe(stat));
+    </script>
+
+</body>
+</html>

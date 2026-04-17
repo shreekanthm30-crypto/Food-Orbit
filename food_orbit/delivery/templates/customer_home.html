@@ -1,0 +1,379 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Customer page</title>
+</head>
+<body>
+<h1>Welcome Customer</h1>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Picture</th>
+                <th>Name</th>
+                <th>Cuisine</th>
+                <th>Rating</th>
+                <th>Other Operations</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for restaurant in restaurants %}
+            <tr>
+                <td>
+                    <img src="{{ restaurant.picture }}" alt="Picture of {{ restaurant.name }}" width="100">
+                </td>
+                <td>{{ restaurant.name }}</td>
+                <td>{{ restaurant.cuisine }}</td>
+                <td>{{ restaurant.rating }}/5</td>
+                <td>
+                    <a href="{% url 'view_menu' restaurant.id %}">View Menu</a>
+                    <br>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</body>
+</html> {% endcomment %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Orbit - Customer Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-green: #2e7d32;
+            --light-green: #4caf50;
+            --white: #ffffff;
+            --beige: #f5f5dc;
+            --warm-beige: #e8e0c8;
+            --dark-beige: #d4c5a0;
+            --deep-beige: #c2b28b;
+            --shadow-sm: 0 5px 15px rgba(46, 125, 50, 0.1);
+            --shadow-md: 0 10px 30px rgba(46, 125, 50, 0.15);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--beige) 0%, var(--warm-beige) 100%);
+            min-height: 100vh;
+            padding: 2rem;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 2rem;
+            animation: slideDown 0.6s ease-out;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        h1 {
+            color: var(--primary-green);
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .divider {
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--light-green), var(--primary-green));
+            margin: 0.5rem auto 0;
+            border-radius: 3px;
+            animation: expandWidth 0.8s ease-out;
+        }
+
+        @keyframes expandWidth {
+            from { width: 0; opacity: 0; }
+            to { width: 60px; opacity: 1; }
+        }
+
+        .cart-link {
+            margin-top: 1rem;
+        }
+
+        .btn-cart {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            background: linear-gradient(135deg, #ff6b35, #f7931e);
+            color: white;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        .btn-cart:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(255, 107, 53, 0.4);
+        }
+
+        .restaurants-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .restaurant-card {
+            background: var(--white);
+            border-radius: 1rem;
+            overflow: hidden;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.3s ease;
+            animation: fadeInUp 0.5s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .restaurant-card:nth-child(1) { animation-delay: 0.1s; }
+        .restaurant-card:nth-child(2) { animation-delay: 0.2s; }
+        .restaurant-card:nth-child(3) { animation-delay: 0.3s; }
+        .restaurant-card:nth-child(4) { animation-delay: 0.4s; }
+        .restaurant-card:nth-child(5) { animation-delay: 0.5s; }
+        .restaurant-card:nth-child(6) { animation-delay: 0.6s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .restaurant-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .card-image {
+            height: 200px;
+            overflow: hidden;
+            background: linear-gradient(135deg, var(--warm-beige), var(--beige));
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .restaurant-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .restaurant-card:hover .restaurant-img {
+            transform: scale(1.05);
+        }
+
+        /* Fallback when image fails to load */
+        .restaurant-img.error {
+            display: none;
+        }
+
+        .no-image {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            color: var(--deep-beige);
+            background: linear-gradient(135deg, var(--warm-beige), var(--beige));
+        }
+
+        .no-image span {
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+            color: var(--deep-beige);
+        }
+
+        .card-content {
+            padding: 1.2rem;
+        }
+
+        .restaurant-name {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--primary-green);
+            margin-bottom: 0.3rem;
+        }
+
+        .cuisine {
+            display: inline-block;
+            background: var(--beige);
+            color: var(--deep-beige);
+            padding: 0.2rem 0.6rem;
+            border-radius: 1rem;
+            font-size: 0.75rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .rating {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .stars {
+            color: #ffc107;
+            font-size: 0.9rem;
+        }
+
+        .rating-value {
+            color: var(--deep-beige);
+            font-size: 0.8rem;
+        }
+
+        .btn-view {
+            display: inline-block;
+            width: 100%;
+            padding: 0.7rem;
+            background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+            color: var(--white);
+            text-decoration: none;
+            text-align: center;
+            border-radius: 2rem;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        .btn-view:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            background: var(--white);
+            border-radius: 1rem;
+            color: var(--deep-beige);
+            grid-column: 1 / -1;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            
+            h1 {
+                font-size: 1.5rem;
+            }
+            
+            .restaurants-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .card-image {
+                height: 180px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="header">
+        <h1>Welcome {{ username }}!</h1>
+        <div class="cart-link">
+            <a href="{% url 'view_cart' %}" class="btn-cart">🛒 View Cart</a>
+        </div>
+        <div class="divider"></div>
+    </div>
+
+    <div class="restaurants-grid">
+        {% for restaurant in restaurants %}
+        <div class="restaurant-card">
+            <div class="card-image">
+                {% if restaurant.picture and restaurant.picture != "" %}
+                    <img 
+                        src="{{ restaurant.picture }}" 
+                        alt="{{ restaurant.name }}" 
+                        class="restaurant-img"
+                        onerror="this.style.display='none'; this.parentElement.querySelector('.no-image').style.display='flex';"
+                    >
+                    <div class="no-image" style="display: none;">
+                        🏪
+                        <span>Image not available</span>
+                    </div>
+                {% else %}
+                    <div class="no-image">
+                        🏪
+                        <span>No image</span>
+                    </div>
+                {% endif %}
+            </div>
+            <div class="card-content">
+                <div class="restaurant-name">{{ restaurant.name }}</div>
+                <div class="cuisine">{{ restaurant.cuisine }}</div>
+                <div class="rating">
+                    <div class="stars">
+                        {% with rating=restaurant.rating|floatformat:0 %}
+                            {% for i in "12345"|make_list %}
+                                {% if forloop.counter <= rating %}★{% else %}☆{% endif %}
+                            {% endfor %}
+                        {% endwith %}
+                    </div>
+                    <div class="rating-value">{{ restaurant.rating }}/5</div>
+                </div>
+                <a href="{% url 'view_menu' restaurant.id %}" class="btn-view">View Menu →</a>
+            </div>
+        </div>
+        {% empty %}
+        <div class="empty-state">
+            <p>No restaurants available</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <script>
+        // Additional error handling for images
+        document.querySelectorAll('.restaurant-img').forEach(img => {
+            img.addEventListener('error', function() {
+                this.style.display = 'none';
+                const noImageDiv = this.parentElement.querySelector('.no-image');
+                if (noImageDiv) {
+                    noImageDiv.style.display = 'flex';
+                }
+            });
+        });
+    </script>
+</body>
+</html>

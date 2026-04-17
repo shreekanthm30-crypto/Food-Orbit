@@ -1,0 +1,629 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Orbit</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #fff5ee 0%, #fde8f0 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+        }
+
+        .container {
+            background: white;
+            max-width: 550px;
+            width: 100%;
+            padding: 3rem 2rem;
+            border-radius: 2rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            border: 1px solid #ffe0d0;
+        }
+
+        .logo {
+            font-size: 3.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        h1 {
+            font-size: 2rem;
+            color: #e07a5f;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+        }
+
+        .tagline {
+            color: #b8957e;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+            letter-spacing: 1px;
+        }
+
+        .divider-line {
+            width: 50px;
+            height: 2px;
+            background: #f7d6c5;
+            margin: 1rem auto;
+            border-radius: 2px;
+        }
+
+        .description {
+            color: #7f6a5e;
+            font-size: 0.9rem;
+            margin: 1.5rem 0;
+            line-height: 1.5;
+        }
+
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+            flex-wrap: wrap;
+        }
+
+        .feature {
+            font-size: 0.8rem;
+            color: #aa7b66;
+        }
+
+        .feature i {
+            display: block;
+            font-size: 1.2rem;
+            margin-bottom: 0.3rem;
+            color: #e07a5f;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin: 1.5rem 0 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.8rem 2rem;
+            border-radius: 2rem;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            display: inline-block;
+            min-width: 130px;
+        }
+
+        .btn-signin {
+            background: #f7d6c5;
+            color: #b05c3c;
+            border: 1px solid #ffe0cf;
+        }
+
+        .btn-signin:hover {
+            background: #f9cfba;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(224, 122, 95, 0.2);
+        }
+
+        .btn-signup {
+            background: #fff6ef;
+            color: #aa7b66;
+            border: 1px solid #f3decb;
+        }
+
+        .btn-signup:hover {
+            background: #fff0e6;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(170, 123, 102, 0.1);
+        }
+
+        .divider {
+            margin: 1.5rem 0;
+            color: #cfbcaf;
+            font-size: 0.75rem;
+            position: relative;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+            display: inline-block;
+            width: 80px;
+            height: 1px;
+            background: #f3e3d8;
+            vertical-align: middle;
+            margin: 0 10px;
+        }
+
+        .guest-text {
+            color: #c8aa98;
+            font-size: 0.8rem;
+        }
+
+        .guest-text i {
+            margin-right: 0.3rem;
+        }
+
+        .footer-note {
+            margin-top: 1.5rem;
+            font-size: 0.7rem;
+            color: #d4bcae;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo">🍽️✨</div>
+        <h1>Food Orbit</h1>
+        <div class="tagline">fresh · fast · flavorful</div>
+        <div class="divider-line"></div>
+
+        <div class="description">
+            Discover delicious meals delivered right to your doorstep. <br>
+            Join our food community today!
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <i>🚚</i>
+                <span>Fast delivery</span>
+            </div>
+            <div class="feature">
+                <i>🌿</i>
+                <span>Fresh ingredients</span>
+            </div>
+            <div class="feature">
+                <i>❤️</i>
+                <span>Best quality</span>
+            </div>
+        </div>
+
+        <div class="btn-group">
+            <a href="SignIn" class="btn btn-signin">Sign In</a>
+            <a href="SignUp" class="btn btn-signup">Sign Up</a>
+        </div>
+
+        <div class="footer-note">
+            ⭐ 1000+ happy customers
+        </div>
+    </div>
+</body>
+</html> {% endcomment %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Orbit - Fresh Food Delivery</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-green: #2e7d32;
+            --light-green: #4caf50;
+            --soft-green: #e8f5e9;
+            --white: #ffffff;
+            --beige: #f5f5dc;
+            --warm-beige: #e8e0c8;
+            --dark-beige: #d4c5a0;
+            --deep-beige: #c2b28b;
+            --shadow-sm: 0 10px 30px rgba(46, 125, 50, 0.1);
+            --shadow-md: 0 20px 40px rgba(46, 125, 50, 0.15);
+            --shadow-lg: 0 30px 60px rgba(46, 125, 50, 0.2);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--beige) 0%, var(--warm-beige) 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 2rem;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Animated background circles */
+        body::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(76, 175, 80, 0.1) 0%, rgba(76, 175, 80, 0) 70%);
+            border-radius: 50%;
+            top: -150px;
+            right: -150px;
+            animation: float 20s ease-in-out infinite;
+        }
+
+        body::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(46, 125, 50, 0.08) 0%, rgba(46, 125, 50, 0) 70%);
+            border-radius: 50%;
+            bottom: -200px;
+            left: -200px;
+            animation: float 25s ease-in-out infinite reverse;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            50% { transform: translate(30px, 20px) rotate(180deg); }
+        }
+
+        .container {
+            background: var(--white);
+            max-width: 550px;
+            width: 100%;
+            padding: 3rem 2rem;
+            border-radius: 2rem;
+            box-shadow: var(--shadow-md);
+            text-align: center;
+            position: relative;
+            z-index: 1;
+            animation: slideUp 0.6s ease-out;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .logo {
+            font-size: 4rem;
+            margin-bottom: 0.5rem;
+            animation: bounce 2s ease-in-out infinite;
+            display: inline-block;
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+
+        h1 {
+            font-size: 2.2rem;
+            color: var(--primary-green);
+            margin-bottom: 0.5rem;
+            font-weight: 700;
+            letter-spacing: -0.5px;
+            background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: fadeIn 0.8s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .tagline {
+            color: var(--dark-beige);
+            margin-bottom: 0.5rem;
+            font-size: 0.95rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-weight: 500;
+        }
+
+        .divider-line {
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, var(--light-green), var(--primary-green));
+            margin: 1rem auto;
+            border-radius: 3px;
+            animation: expandWidth 0.8s ease-out;
+        }
+
+        @keyframes expandWidth {
+            from { width: 0; opacity: 0; }
+            to { width: 60px; opacity: 1; }
+        }
+
+        .description {
+            color: #6b5b4f;
+            font-size: 0.95rem;
+            margin: 1.5rem 0;
+            line-height: 1.6;
+            animation: fadeIn 1s ease-out;
+        }
+
+        .features {
+            display: flex;
+            justify-content: center;
+            gap: 1.8rem;
+            margin: 2rem 0;
+            flex-wrap: wrap;
+        }
+
+        .feature {
+            font-size: 0.85rem;
+            color: var(--deep-beige);
+            transition: all 0.3s ease;
+            cursor: default;
+            animation: fadeInUp 0.5s ease-out;
+            animation-fill-mode: both;
+        }
+
+        .feature:nth-child(1) { animation-delay: 0.1s; }
+        .feature:nth-child(2) { animation-delay: 0.2s; }
+        .feature:nth-child(3) { animation-delay: 0.3s; }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .feature:hover {
+            transform: translateY(-5px);
+        }
+
+        .feature i {
+            display: block;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .feature:hover i {
+            transform: scale(1.1);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 1.2rem;
+            justify-content: center;
+            margin: 2rem 0 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 0.9rem 2.2rem;
+            border-radius: 3rem;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            display: inline-block;
+            min-width: 140px;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-signin {
+            background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+            color: var(--white);
+            border: none;
+            box-shadow: 0 4px 15px rgba(46, 125, 50, 0.3);
+        }
+
+        .btn-signin:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(46, 125, 50, 0.4);
+        }
+
+        .btn-signin:active {
+            transform: translateY(0);
+        }
+
+        .btn-signup {
+            background: var(--beige);
+            color: var(--primary-green);
+            border: 2px solid var(--light-green);
+        }
+
+        .btn-signup:hover {
+            background: var(--warm-beige);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(46, 125, 50, 0.2);
+        }
+
+        .btn-signup:active {
+            transform: translateY(0);
+        }
+
+        .divider {
+            margin: 1.5rem 0;
+            color: var(--dark-beige);
+            font-size: 0.75rem;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .divider::before,
+        .divider::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, var(--dark-beige), transparent);
+        }
+
+        .guest-text {
+            color: var(--deep-beige);
+            font-size: 0.85rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.3s ease;
+            cursor: pointer;
+        }
+
+        .guest-text:hover {
+            color: var(--primary-green);
+        }
+
+        .guest-text i {
+            transition: transform 0.3s ease;
+        }
+
+        .guest-text:hover i {
+            transform: translateX(3px);
+        }
+
+        .footer-note {
+            margin-top: 1.8rem;
+            font-size: 0.75rem;
+            color: var(--deep-beige);
+            padding: 0.8rem;
+            background: var(--beige);
+            border-radius: 2rem;
+            display: inline-block;
+            width: auto;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.7; }
+            50% { opacity: 1; }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 480px) {
+            body {
+                padding: 1rem;
+            }
+            
+            .container {
+                padding: 2rem 1.5rem;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .logo {
+                font-size: 3rem;
+            }
+            
+            .btn {
+                padding: 0.7rem 1.5rem;
+                min-width: 120px;
+                font-size: 0.9rem;
+            }
+            
+            .features {
+                gap: 1rem;
+            }
+            
+            .feature {
+                font-size: 0.75rem;
+            }
+            
+            .feature i {
+                font-size: 1.5rem;
+            }
+        }
+
+        /* Loading animation for page */
+        @keyframes pageLoad {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+        
+        body {
+            animation: pageLoad 0.5s ease-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="logo"></div>
+        <h1>Food Orbit</h1>
+        <div class="tagline">fresh · fast · flavorful</div>
+        <div class="divider-line"></div>
+
+        <div class="description">
+            Discover delicious meals delivered right to your doorstep. <br>
+            Join our food community today!
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <i>🚚</i>
+                <span>Fast delivery</span>
+            </div>
+            <div class="feature">
+                <i>🌿</i>
+                <span>Fresh ingredients</span>
+            </div>
+            <div class="feature">
+                <i>❤️</i>
+                <span>Best quality</span>
+            </div>
+        </div>
+
+        <div class="btn-group">
+            <a href="SignIn" class="btn btn-signin">Sign In</a>
+            <a href="SignUp" class="btn btn-signup">Sign Up</a>
+        </div>
+
+        <div class="footer-note">
+            ⭐ 1000+ happy customers
+        </div>
+    </div>
+</body>
+</html>

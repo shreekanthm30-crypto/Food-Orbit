@@ -1,0 +1,370 @@
+{% comment %} <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Orbit - Add Restaurant</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #fff5ee 0%, #fde8f0 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            background: white;
+            width: 100%;
+            max-width: 420px;
+            padding: 2.5rem 2rem;
+            border-radius: 2rem;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+            border: 1px solid #ffe0d0;
+        }
+
+        .title {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .title h2 {
+            color: #e07a5f;
+            font-weight: 600;
+        }
+
+        .title p {
+            font-size: 0.8rem;
+            color: #b8957e;
+            margin-top: 5px;
+        }
+
+        .divider {
+            width: 40px;
+            height: 2px;
+            background: #f7d6c5;
+            margin: 10px auto 20px;
+            border-radius: 2px;
+        }
+
+        label {
+            font-size: 0.8rem;
+            color: #aa7b66;
+            display: block;
+            margin-top: 10px;
+            margin-bottom: 3px;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #f3decb;
+            background: #fff6ef;
+            outline: none;
+            font-size: 0.9rem;
+        }
+
+        input:focus {
+            border-color: #e07a5f;
+            background: #fffaf7;
+        }
+
+        button {
+            width: 100%;
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 2rem;
+            border: none;
+            background: #f7d6c5;
+            color: #b05c3c;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        button:hover {
+            background: #f9cfba;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(224, 122, 95, 0.2);
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 0.8rem;
+        }
+
+        .back-link a {
+            text-decoration: none;
+            color: #c8aa98;
+        }
+
+        .back-link a:hover {
+            color: #e07a5f;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="title">
+            <h2>🍽️ Add Restaurant</h2>
+            <p>Expand your Food Orbit network</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <form method="POST" action="{% url 'add_restaurant' %}">
+            {% csrf_token %}
+
+            <label>Restaurant Name</label>
+            <input type="text" name="name" placeholder="e.g. Spice Hub" required>
+
+            <label>Picture URL</label>
+            <input type="url" name="picture" placeholder="https://image-link.com">
+
+            <label>Cuisine</label>
+            <input type="text" name="cuisine" placeholder="Indian, Chinese..." required>
+
+            <label>Rating</label>
+            <input type="number" name="rating" min="1" max="5" step="0.1" placeholder="4.5" required>
+
+            <button type="submit">Add Restaurant</button>
+        </form>
+    </div>
+
+</body>
+</html> {% endcomment %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Orbit - Add Restaurant</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-green: #2e7d32;
+            --light-green: #4caf50;
+            --white: #ffffff;
+            --beige: #f5f5dc;
+            --warm-beige: #e8e0c8;
+            --dark-beige: #d4c5a0;
+            --deep-beige: #c2b28b;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, var(--beige) 0%, var(--warm-beige) 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            animation: fadeIn 0.5s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .container {
+            background: var(--white);
+            width: 100%;
+            max-width: 420px;
+            padding: 2.5rem 2rem;
+            border-radius: 2rem;
+            box-shadow: 0 20px 40px rgba(46, 125, 50, 0.1);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: slideUp 0.5s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 30px 60px rgba(46, 125, 50, 0.15);
+        }
+
+        .title {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .title h2 {
+            color: var(--primary-green);
+            font-weight: 600;
+            font-size: 1.8rem;
+        }
+
+        .title p {
+            font-size: 0.8rem;
+            color: var(--deep-beige);
+            margin-top: 5px;
+        }
+
+        .divider {
+            width: 40px;
+            height: 2px;
+            background: linear-gradient(90deg, var(--light-green), var(--primary-green));
+            margin: 10px auto 20px;
+            border-radius: 2px;
+            animation: expandWidth 0.6s ease-out;
+        }
+
+        @keyframes expandWidth {
+            from { width: 0; opacity: 0; }
+            to { width: 40px; opacity: 1; }
+        }
+
+        label {
+            font-size: 0.8rem;
+            color: var(--primary-green);
+            display: block;
+            margin-top: 10px;
+            margin-bottom: 3px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border-radius: 10px;
+            border: 2px solid var(--warm-beige);
+            background: var(--white);
+            outline: none;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+
+        input:hover {
+            border-color: var(--dark-beige);
+        }
+
+        input:focus {
+            border-color: var(--light-green);
+            background: var(--white);
+            box-shadow: 0 0 0 3px rgba(76, 175, 80, 0.1);
+            transform: translateY(-1px);
+        }
+
+        button {
+            width: 100%;
+            margin-top: 20px;
+            padding: 12px;
+            border-radius: 2rem;
+            border: none;
+            background: linear-gradient(135deg, var(--primary-green), var(--light-green));
+            color: var(--white);
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        button:hover {
+            background: linear-gradient(135deg, var(--light-green), var(--primary-green));
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(46, 125, 50, 0.3);
+        }
+
+        button:active {
+            transform: translateY(0);
+        }
+
+        .back-link {
+            text-align: center;
+            margin-top: 15px;
+            font-size: 0.8rem;
+        }
+
+        .back-link a {
+            text-decoration: none;
+            color: var(--deep-beige);
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .back-link a:hover {
+            color: var(--light-green);
+            transform: translateX(-3px);
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div class="title">
+            <h2>🍽️ Add Restaurant</h2>
+            <p>Expand your Food Orbit network</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <form method="POST" action="{% url 'add_restaurant' %}">
+            {% csrf_token %}
+
+            <label>Restaurant Name</label>
+            <input type="text" name="name" placeholder="e.g. Spice Hub" required>
+
+            <label>Picture URL</label>
+            <input type="url" name="picture" placeholder="https://image-link.com">
+
+            <label>Cuisine</label>
+            <input type="text" name="cuisine" placeholder="Indian, Chinese..." required>
+
+            <label>Rating</label>
+            <input type="number" name="rating" min="1" max="5" step="0.1" placeholder="4.5" required>
+
+            <button type="submit">Add Restaurant</button>
+        </form>
+    </div>
+
+</body>
+</html>
